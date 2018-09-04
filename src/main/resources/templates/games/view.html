@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments :: head(title=~{::title/text()})">
+		<title>Games : View</title>
+	</head>
+	<body>
+		<div class="container">
+			<div th:replace="fragments :: navbar"></div>
+			<div class="float-right mt-2">
+				<a class="btn btn-primary btn-sm" href="list.html" th:href="@{/}">Games</a>
+			</div>
+			<h4 class="float-left mt-2">Game : View</h4>
+			<div class="clearfix"></div>
+			<div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}">Some Success message
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title" 
+					th:text="${game.champion + ' vs ' + game.opponent}"> Game Summary</h4>
+					<strong><p class="card-text" th:text="'Result: ' + ${game.result}">Kills</p></strong>
+					<p class="card-text" th:text="'Kills: ' + ${game.kills}">Kills</p>
+					<p class="card-text" th:text="'Deaths: ' + ${game.deaths}">Deaths</p>
+					<p class="card-text" th:text="'Assists: ' + ${game.assists}">Assists</p>
+					<p class="card-text" th:text="'CS: ' + ${game.cs}">CS</p>
+					<a class="card-link" href="games" th:href="@{'/delete/' + ${game.id}}">delete</a>
+					<a class="card-link" href="form.html" th:href="@{'/modify/' + ${game.id}}"> modify</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

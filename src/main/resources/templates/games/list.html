@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments :: head(title=~{::title/text()})">
+		<title>Games : View all</title>
+	</head>
+	<body>
+		<div class="container">
+			<div th:replace="fragments :: navbar"></div>
+			<div class="float-right mt-2">
+				<a class="btn btn-primary btn-sm" href="form.html" th:href="@{/(form)}">Input Game</a>
+				<a class="btn btn-primary btn-sm" href="stats.html" th:href="@{/stats}">Stats</a>
+			</div>
+			<h4 class="float-left mt-2">Games</h4>
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Champion</th>
+						<th>Opponent</th>
+						<th>Kills</th>
+						<th>Deaths</th>
+						<th>Assists</th>
+						<th>CS</th>
+						<th>Result</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${!games.hasContent()}">
+						<td colspan="8">No Games</td>
+					</tr>
+					<tr th:each="game : ${games}">
+						<td><a href="view.html" th:href="@{'/' + ${game.id}}"
+							th:text="${game.id}">1</td>
+						<td><a href="champion.html" th:href="@{'/findbychampion?champion=' + ${game.champion}}"
+							th:text="${game.champion}"> The champion </td>
+						<td th:text="${game.opponent}">The opponent</td>
+						<td th:text="${game.kills}">1</td>
+						<td th:text="${game.deaths}">1</td>
+						<td th:text="${game.assists}">1</td>
+						<td th:text="${game.cs}">1</td>
+						<td th:text="${game.result}">The result</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="pagination-div">
+				<span th:if="${games.hasPrevious()}">
+					<div class="float-left mt-2">
+						<a class="btn btn-primary btn-sm" th:href="@{/(page=${games.number-1})}">Previous</a>
+					<!--<a th:href="@{/(page=${games.number-1})}">Previous</a>-->
+					</div>
+				</span>
+				
+				<span th:if="${games.hasNext()}">
+					<div class="float-right mt-2">
+						<a class="btn btn-primary btn-sm" th:href="@{/(page=${games.number+1})}">Next</a>
+						<!--<a th:href="@{/(page=${games.number+1})}">Next</a>-->
+					</div>
+				</span>
+			</div>
+		</div>
+		
+	</body>
+</html>

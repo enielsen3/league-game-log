@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments :: head(title=~{::title/text()})">
+		<title>Games : View</title>
+	</head>
+	<body>
+		<div class="container">
+			<div th:replace="fragments :: navbar"></div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Total Games</th>
+						<th>Win Percentage</th>
+						<th>Average Kills</th>
+						<th>Average Deaths</th>
+						<th>Average Assists</th>
+						<th>Average CS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:text="${total}">Total Games</td>
+						<td th:text="${#numbers.formatDecimal(winPercent, 0, 2)} + '%'">winPercent</td>
+						<td th:text="${#numbers.formatDecimal(avgKills, 0, 2)}">avgKills</td>
+						<td th:text="${#numbers.formatDecimal(avgDeaths, 0, 2)}">avgDeaths</td>
+						<td th:text="${#numbers.formatDecimal(avgAssists, 0, 2)}">avgAssists</td>
+						<td th:text="${#numbers.formatDecimal(avgCS, 0, 2)}">avgCS</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!--
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title"th:text="'Stats for ' + ${champion}"></h4>
+					<p class="card-text" th:text="'Total Games: ' + ${total}">Total Games</p>
+					<p class="card-text" th:text="'Win Percentage: ' + ${#numbers.formatDecimal(winPercent, 0, 2)} + '%'">winPercent</p>
+					<p class="card-text" th:text="'Average Kills: ' + ${#numbers.formatDecimal(avgKills, 0, 2)}">avgKills</p>
+					<p class="card-text" th:text="'Average Deaths: ' + ${#numbers.formatDecimal(avgDeaths, 0, 2)}">avgDeaths</p>
+					<p class="card-text" th:text="'Average Assists: ' + ${#numbers.formatDecimal(avgAssists, 0, 2)}">avgAssists</p>
+					<p class="card-text" th:text="'Average CS: ' + ${#numbers.formatDecimal(avgCS, 0, 2)}">avgCS</p>
+					
+				</div>
+			</div>
+			-->
+					
+		</div>
+		<div class="container">
+			
+			<div class="float-right mt-2">
+				<a class="btn btn-primary btn-sm" href="list.html" th:href="@{/}">Games</a></div>
+			<h4 class="float-left mt-2" th:text="'Games for ' + ${champion}"></h4>
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Champion</th>
+						<th>Opponent</th>
+						<th>Kills</th>
+						<th>Deaths</th>
+						<th>Assists</th>
+						<th>CS</th>
+						<th>Result</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${games.empty}">
+						<td colspan="8">No Games</td>
+					</tr>
+					<tr th:each="game : ${games}">
+						<td><a href="view.html" th:href="@{'/' + ${game.id}}"
+							th:text="${game.id}">1</td>
+						<td	th:text="${game.champion}"> The champion </a></td>
+						<td th:text="${game.opponent}">The opponent</td>
+						<td th:text="${game.kills}">1</td>
+						<td th:text="${game.deaths}">1</td>
+						<td th:text="${game.assists}">1</td>
+						<td th:text="${game.cs}">1</td>
+						<td th:text="${game.result}">The result</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
