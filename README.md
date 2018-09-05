@@ -4,6 +4,7 @@ Game tracker with stats for League of Legends implemented using spring boot, pos
 
 ## Features
 - View all games
+  - Pagination - view 20 games at a time
   - Modify a game
   - Delete a game
 - View overall stats including averages of:
