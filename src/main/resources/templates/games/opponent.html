@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head th:replace="fragments :: head(title=~{::title/text()})">
-		<title>Games : View all</title>
+		<title>Games : View</title>
 	</head>
 	<body>
 		<div class="container">
@@ -28,15 +28,13 @@
 					</tr>
 				</tbody>
 			</table>
-			</div>
+											
 		</div>
-		
 		<div class="container">
+			
 			<div class="float-right mt-2">
-				<a class="btn btn-primary btn-sm" href="form.html" th:href="@{/(form)}">Input Game</a>
-				<a class="btn btn-primary btn-sm" href="list.html" th:href="@{/}">Games</a>
-			</div>
-			<h4 class="float-left mt-2">Games : View all</h4>
+				<a class="btn btn-primary btn-sm" href="list.html" th:href="@{/}">Games</a></div>
+			<h4 class="float-left mt-2" th:text="'Games against ' + ${opponent}"></h4>
 			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
@@ -51,16 +49,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:if="${!games.hasContent()}">
+					<tr th:if="${games.empty}">
 						<td colspan="8">No Games</td>
 					</tr>
 					<tr th:each="game : ${games}">
 						<td><a href="view.html" th:href="@{'/' + ${game.id}}"
 							th:text="${game.id}">1</td>
-						<td><a href="champion.html" th:href="@{'/findbychampion?champion=' + ${game.champion}}"
-							th:text="${game.champion}"> The champion </td>
-						<td><a href="opponent.html" th:href="@{'/findbyopponent?opponent=' + ${game.opponent}}"
-							th:text="${game.opponent}"> The opponent </td>
+						<td	th:text="${game.champion}"> The champion </a></td>
+						<td th:text="${game.opponent}">The opponent</td>
 						<td th:text="${game.kills}">1</td>
 						<td th:text="${game.deaths}">1</td>
 						<td th:text="${game.assists}">1</td>
@@ -69,20 +65,6 @@
 					</tr>
 				</tbody>
 			</table>
-			
-			<div class="pagination-div">
-				<span th:if="${games.hasPrevious()}">
-					<div class="float-left mt-2">
-						<a class="btn btn-primary btn-sm" th:href="@{/stats/(page=${games.number-1})}">Previous</a>
-					</div>
-				</span>
-				
-				<span th:if="${games.hasNext()}">
-					<div class="float-right mt-2">
-						<a class="btn btn-primary btn-sm" th:href="@{/stats/(page=${games.number+1})}">Next</a>
-					</div>
-				</span>
-			</div>
 		</div>
 	</body>
 </html>

@@ -33,7 +33,8 @@
 							th:text="${game.id}">1</td>
 						<td><a href="champion.html" th:href="@{'/findbychampion?champion=' + ${game.champion}}"
 							th:text="${game.champion}"> The champion </td>
-						<td th:text="${game.opponent}">The opponent</td>
+						<td><a href="opponent.html" th:href="@{'/findbyopponent?opponent=' + ${game.opponent}}"
+							th:text="${game.opponent}"> The opponent </td>
 						<td th:text="${game.kills}">1</td>
 						<td th:text="${game.deaths}">1</td>
 						<td th:text="${game.assists}">1</td>
@@ -46,14 +47,12 @@
 				<span th:if="${games.hasPrevious()}">
 					<div class="float-left mt-2">
 						<a class="btn btn-primary btn-sm" th:href="@{/(page=${games.number-1})}">Previous</a>
-					<!--<a th:href="@{/(page=${games.number-1})}">Previous</a>-->
 					</div>
 				</span>
 				
 				<span th:if="${games.hasNext()}">
 					<div class="float-right mt-2">
 						<a class="btn btn-primary btn-sm" th:href="@{/(page=${games.number+1})}">Next</a>
-						<!--<a th:href="@{/(page=${games.number+1})}">Next</a>-->
 					</div>
 				</span>
 			</div>

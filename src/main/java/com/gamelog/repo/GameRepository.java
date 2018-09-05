@@ -11,6 +11,10 @@ public interface GameRepository extends PagingAndSortingRepository<Game, Long>{
 	List<Game> findByChampion(String champion);
 	
 	Optional<Game> findById(Long id);
+
+	List<Game> findByOpponent(String opponent);
+	
+	List<Game> findAll();
 	
 	
 }

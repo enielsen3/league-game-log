@@ -53,11 +53,11 @@ public class WebController {
 		
 		Page<Game> page = this.repository.findAll(pageable);
 		ModelAndView mav = new ModelAndView("games/stats", "games", page);
-		Iterable<Game> games = this.repository.findAll();
-		List<Game> gamesList = (List<Game>) games;
 		
-		if(!gamesList.isEmpty()) {
-			return Utilities.findStats(gamesList, mav);
+		List<Game> games = repository.findAll();
+		
+		if(!games.isEmpty()) {
+			return Utilities.findStats(games, mav);
 		}
 		
 		return mav;
@@ -66,15 +66,29 @@ public class WebController {
 	
 	@RequestMapping("/findbychampion")
 	public ModelAndView findByChampion(@RequestParam("champion") String champion){
-		Iterable<Game> games = repository.findByChampion(champion);
-		List<Game> gamesList = (List<Game>) games;
-		gamesList.sort(Game::compare);
-		ModelAndView mav = new ModelAndView("games/champion", "games", gamesList);
+		List<Game> games = repository.findByChampion(champion);
+		games.sort(Game::compare);
+		ModelAndView mav = new ModelAndView("games/champion", "games", games);
 		mav.addObject("champion", champion);
 		
-		if(!gamesList.isEmpty()) {
+		if(!games.isEmpty()) {
 			
-			return Utilities.findStats(gamesList, mav);
+			return Utilities.findStats(games, mav);
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping("/findbyopponent")
+	public ModelAndView findByOpponent(@RequestParam("opponent") String opponent){
+		List<Game> games = repository.findByOpponent(opponent);
+		games.sort(Game::compare);
+		ModelAndView mav = new ModelAndView("games/opponent", "games", games);
+		mav.addObject("opponent", opponent);
+		
+		if(!games.isEmpty()) {
+			
+			return Utilities.findStats(games, mav);
 		}
 		
 		return mav;
