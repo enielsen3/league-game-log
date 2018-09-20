@@ -59,7 +59,7 @@ public class Game implements Serializable {
 	
 	@Override
 	public String toString() {
-		return String.format("Game[id=%d, champion ='%s', opponent='%s', "
+		return String.format("Game [id=%d, champion ='%s', opponent='%s', "
 				+ "kills=%d, deaths=%d, assists=%d, cs=%d,  result='%s']", id, champion, opponent, kills, deaths,
 				assists, cs, result);
 	}

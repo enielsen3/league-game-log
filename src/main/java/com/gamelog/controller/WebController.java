@@ -1,6 +1,9 @@
 package com.gamelog.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gamelog.model.Game;
+import com.gamelog.model.Match;
+import com.gamelog.model.Summoner;
 import com.gamelog.repo.GameRepository;
+import com.gamelog.repo.MatchRepository;
+import com.gamelog.repo.SummonerRepository;
+
 
 @RestController
 @RequestMapping("/")
@@ -30,12 +38,26 @@ public class WebController {
 	@Autowired
 	GameRepository repository;
 	
+	@Autowired
+	MatchRepository matchRepo;
+	
+	@Autowired
+	SummonerRepository summonerRepo;
+	
 	@RequestMapping("/save")
 	public String process() {
 		// generates 1000 random game data for testing purposes
 		Utilities.generateGames(1000, repository);
 		return "Successfully created 1000 entries.";
 	}
+	
+	@RequestMapping("/champs")
+	public String champTest() {
+		
+		Map<Integer, String> champs = Utilities.getChampions();
+		return champs.toString();
+	}
+	
 	
 	@GetMapping
 	public ModelAndView list(@PageableDefault(size = 20) 
@@ -45,6 +67,30 @@ public class WebController {
 		Page<Game> page = this.repository.findAll(pageable);
 		return new ModelAndView("games/list", "games", page);
 	}
+	
+	/*
+	@GetMapping
+	public ModelAndView findSummoner(String name) {
+		return new ModelAndView("summoner/form", "name", name);
+	}
+	
+	@PostMapping
+	public ModelAndView search(String name, BindingResult result, RedirectAttributes redirect) {
+		if (result.hasErrors()) {
+			return new ModelAndView("summoner/form", "formErrors", result.getAllErrors());
+		}
+		if(summonerRepo.findByName(name) == null) {
+			com.gamelog.model.Summoner summoner = Utilities.getSummoner(name);
+			summonerRepo.save(summoner);
+		}
+		else {
+			Optional<com.gamelog.model.Summoner> summoner = summonerRepo.findByName(name);
+		}
+				
+		redirect.addFlashAttribute("globalMessage", "Successfully created a new game");
+		return new ModelAndView("redirect:/{game.id}", "game.id", game.getId());
+	}
+	*/
 	
 	@RequestMapping("/stats")
 	public ModelAndView viewStats(@PageableDefault(size = 20) 
@@ -64,6 +110,27 @@ public class WebController {
 				
 	}
 	
+	
+	@RequestMapping("/findbysummoner")
+	public ModelAndView findBySummoner(@RequestParam("name") String name) {
+		
+		if(Utilities.checkSummonerName(name)) {
+			Summoner summoner = Utilities.getSummoner(name, summonerRepo);	
+			Utilities.getMatchHistory(summoner, matchRepo);
+			List<Match> matchList = matchRepo.findBySummonerId(summoner.getId());
+			matchList.sort(Comparator.comparing(Match::getGameId));
+			Collections.reverse(matchList);
+			ModelAndView mav = new ModelAndView("matches/list", "matches", matchList);
+			return mav;
+		}
+		else {
+			List<Match> matchList = null;
+			return new ModelAndView("matches/list", "matches", matchList);
+		}
+		
+	}
+	
+	
 	@RequestMapping("/findbychampion")
 	public ModelAndView findByChampion(@RequestParam("champion") String champion){
 		List<Game> games = repository.findByChampion(champion);
@@ -78,6 +145,8 @@ public class WebController {
 		
 		return mav;
 	}
+	
+	
 	
 	@RequestMapping("/findbyopponent")
 	public ModelAndView findByOpponent(@RequestParam("opponent") String opponent){
@@ -94,10 +163,14 @@ public class WebController {
 		return mav;
 	}
 	
+	
+	
 	@GetMapping(params = "form")
 	public ModelAndView createForm(@ModelAttribute Game game) {
 		return new ModelAndView("games/form", "game", game);
 	}
+	
+	
 	
 	@PostMapping
 	public ModelAndView create(@Valid Game game, BindingResult result, RedirectAttributes redirect) {
@@ -108,6 +181,7 @@ public class WebController {
 		redirect.addFlashAttribute("globalMessage", "Successfully created a new game");
 		return new ModelAndView("redirect:/{game.id}", "game.id", game.getId());
 	}
+	
 	
 	@GetMapping("{id}")
 	public ModelAndView view(@PathVariable("id") Game game) {

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments :: head(title=~{::title/text()})">
+		<title>Games : View all</title>
+	</head>
+	<body>
+		<div class="container">
+			<div th:replace="fragments :: navbar"></div>
+			<!--<div class="float-right mt-2">
+				<a class="btn btn-primary btn-sm" href="form.html" th:href="@{/(form)}">Input Game</a>
+				<a class="btn btn-primary btn-sm" href="stats.html" th:href="@{/stats}">Stats</a>
+			</div>-->
+			<h4 class="float-left mt-2">Games</h4>
+			<table class="table table-bordered table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Champion</th>
+						<th>Role</th>
+						<th>Queue</th>
+						<th>Season</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${matches.isEmpty()}">
+						<td colspan="5">No Games</td>
+					</tr>
+					<tr th:each="match : ${matches}">
+						<td	th:text="${match.gameId}">123456</td>
+						<td	th:text="${match.champion}"> The champion </td>
+						<td th:text="${match.role}">Duo</td>
+						<td th:text="${match.queue}">Ranked</td>
+						<td th:text="${match.season}">Season 3</td>
+						<td th:text="${match.timestamp}">5/5/2015</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--
+			<div class="pagination-div">
+				<span th:if="${matches.hasPrevious()}">
+					<div class="float-left mt-2">
+						<a class="btn btn-primary btn-sm" th:href="@{'/findbysummoner?summonerName=' + ${summonerName} + 
+																	'&' + 'page=' + ${matches.number-1}}">Previous</a>
+					</div>
+				</span>
+				
+				<span th:if="${matches.hasNext()}">
+					<div class="float-right mt-2">
+						<a class="btn btn-primary btn-sm" th:href="@{'/findbysummoner?summonerName=' + ${summonerName} +
+																	'&' + 'page=' + ${matches.number+1}}">Next</a>
+					</div>
+				</span>
+			</div>
+			-->
+		</div>
+		
+	</body>
+</html>

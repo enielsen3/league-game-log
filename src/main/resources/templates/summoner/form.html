@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments :: head(title=~{::title/text()})">
+		<title>Games : Create</title>
+	</head>
+	<body>
+		<div class="container">
+			<div th:replace="fragments :: navbar"></div>
+			<!--<div class="float-right mt-2">
+				<a class="btn btn-primary btn-sm" th:href="@{/}" href="games.html"> Games </a>
+			</div>-->
+			<h4 class="float-left mt-2">Find Summoner</h4>
+			<div class="clearfix"></div>
+			<form id="summonerForm" th:action="@{/(form)}" th:object="${summoner}" action="#" method="post">
+				<div class="form-group">
+					<label for="name">Summoner Name</label>
+					<input type="text" th:field="*{name}" >
+				</div>
+				
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</body>
+</html>

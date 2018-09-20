@@ -23,6 +23,6 @@ Game tracker with stats for League of Legends implemented using spring boot, pos
 
 ![Image of Stats](https://github.com/enielsen3/league-game-log/blob/master/images/stats.PNG)
 
-![Image of Stats](https://github.com/enielsen3/league-game-log/blob/master/images/champion.PNG)
+![Image of Champion](https://github.com/enielsen3/league-game-log/blob/master/images/champion.PNG)
 
-![Image of Stats](https://github.com/enielsen3/league-game-log/blob/master/images/opponent.PNG)
+![Image of Opponent](https://github.com/enielsen3/league-game-log/blob/master/images/opponent.PNG)
